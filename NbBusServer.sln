@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "NbBusService", "NbBusService\", "{7454F481-DAD8-48E6-8581-696228C5DD13}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/NbBusService"
+		Debug.AspNetCompiler.PhysicalPath = "NbBusService\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\NbBusService\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/NbBusService"
+		Release.AspNetCompiler.PhysicalPath = "NbBusService\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\NbBusService\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "63061"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NbBusConsole", "NbBusConsole\NbBusConsole.csproj", "{C56EF8A0-03EC-43EE-828F-D431015BE333}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7454F481-DAD8-48E6-8581-696228C5DD13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7454F481-DAD8-48E6-8581-696228C5DD13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7454F481-DAD8-48E6-8581-696228C5DD13}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7454F481-DAD8-48E6-8581-696228C5DD13}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{C56EF8A0-03EC-43EE-828F-D431015BE333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C56EF8A0-03EC-43EE-828F-D431015BE333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C56EF8A0-03EC-43EE-828F-D431015BE333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C56EF8A0-03EC-43EE-828F-D431015BE333}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35
+	EndGlobalSection
+EndGlobal
