@@ -11,8 +11,13 @@ namespace NbBusService
     public class NbBusService : INbBusService
     {
         private static List<BusLineInfo> s_busLines;
+        private static Dictionary<int, string> s_dictBusLines = new Dictionary<int, string>();
         private static object m_getBusLineLock = new object();
-        public List<BusLineInfo> GetBusLines()
+
+        static NbBusService()
+        {
+        }
+        private static void LoadData()
         {
             lock (m_getBusLineLock)
             {
@@ -23,18 +28,25 @@ namespace NbBusService
                     foreach (System.Data.DataRow row in dt.Rows)
                     {
                         s_busLines.Add(new BusLineInfo { Id = (int)row["Id"], Name = (string)row["Name"] });
+                        s_dictBusLines[(int)row["Id"]] = (string)row["Name"];
                     }
                 }
             }
+        }
+        public List<BusLineInfo> GetBusLines()
+        {
             return s_busLines;
         }
 
-        public string GetBusLineCurrentInfo(string busLineId)
+        public BusLineRunInfo GetBusLineCurrentInfo(string strBusLineId)
         {
             // "15路(锦江年华始发站=>汽车东站始发站)"
-            var x = NingboBusHelper.Instance.GetBusLocations(Convert.ToInt32(busLineId));
+            int busLineId = Convert.ToInt32(strBusLineId);
+            if (!s_dictBusLines.ContainsKey(busLineId))
+                return null;
+            var x = NingboBusHelper.Instance.GetBusLocations(busLineId);
             var s = NingboBusHelper.ConvertBusLocationsToString(x);
-            return s;
+            return new BusLineRunInfo { Name = s_dictBusLines[busLineId], RunInfo = s };
         }
     }
 }

@@ -19,8 +19,8 @@ namespace NbBusService
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
-                BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "/GetBusLineCurrentInfo/{busLineId}")]
-        string GetBusLineCurrentInfo(string busLineId);
+                BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "/GetBusLineCurrentInfo/{strBusLineId}")]
+        BusLineRunInfo GetBusLineCurrentInfo(string strBusLineId);
     }
 
     [DataContract]
@@ -35,6 +35,24 @@ namespace NbBusService
 
         [DataMember]
         public int Id
+        {
+            get;
+            set;
+        }
+    }
+
+    [DataContract]
+    public class BusLineRunInfo
+    {
+        [DataMember]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
+        public string RunInfo
         {
             get;
             set;
