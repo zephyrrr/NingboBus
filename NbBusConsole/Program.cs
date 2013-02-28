@@ -18,6 +18,8 @@ namespace NbBusConsole
 
             var x = NbBusService.NingboBusHelper.Instance.GetBusLocations(35); // 15路(锦江年华始发站=>汽车东站始发站)
             var s = NbBusService.NingboBusHelper.Instance.ConvertBusLocationsToString(x);
+            Console.WriteLine(s);
+            Console.ReadLine();
         }
     }
 }

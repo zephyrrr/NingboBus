@@ -38,13 +38,18 @@
   <ItemGroup>
     <Reference Include="Feng.Base, Version=2.3.0.0, Culture=neutral, PublicKeyToken=e562c5de18d0ba3c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\wlxt\trunk\Support\Feng\Feng.Base.dll</HintPath>
+      <HintPath>..\Lib\Feng.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Feng.Data">
-      <HintPath>..\..\wlxt\trunk\Support\Feng\Feng.Data.dll</HintPath>
+    <Reference Include="Feng.Data, Version=2.3.0.0, Culture=neutral, PublicKeyToken=e562c5de18d0ba3c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Feng.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Feng.Net">
-      <HintPath>..\..\wlxt\trunk\Support\Feng\Feng.Net.dll</HintPath>
+    <Reference Include="Feng.Model">
+      <HintPath>..\Lib\Feng.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Feng.Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=e562c5de18d0ba3c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Feng.Net.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
