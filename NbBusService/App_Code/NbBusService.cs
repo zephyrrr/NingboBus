@@ -12,10 +12,12 @@ namespace NbBusService
     {
         private static List<BusLineInfo> s_busLines;
         private static Dictionary<int, string> s_dictBusLines = new Dictionary<int, string>();
-        private static object m_getBusLineLock = new object();
+        private static object m_getBusLineLock;
 
         static NbBusService()
         {
+            m_getBusLineLock = new object();
+            LoadData();
         }
         private static void LoadData()
         {
