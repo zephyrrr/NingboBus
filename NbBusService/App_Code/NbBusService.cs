@@ -10,22 +10,30 @@ namespace NbBusService
 {
     public class NbBusService : INbBusService
     {
+        private static List<BusLineInfo> s_busLines;
+        private static object m_getBusLineLock = new object();
         public List<BusLineInfo> GetBusLines()
         {
-            var dt = Feng.Data.DbHelper.Instance.ExecuteDataTable("SELECT Id, Name FROM BusLines");
-            List<BusLineInfo> ret = new List<BusLineInfo>();
-            foreach (System.Data.DataRow row in dt.Rows)
+            lock (m_getBusLineLock)
             {
-                ret.Add(new BusLineInfo { Id = (int)row["Id"], Name = (string)row["Name"] });
+                if (s_busLines == null)
+                {
+                    var dt = Feng.Data.DbHelper.Instance.ExecuteDataTable("SELECT Id, Name FROM BusLines");
+                    s_busLines = new List<BusLineInfo>();
+                    foreach (System.Data.DataRow row in dt.Rows)
+                    {
+                        s_busLines.Add(new BusLineInfo { Id = (int)row["Id"], Name = (string)row["Name"] });
+                    }
+                }
             }
-            return ret;
+            return s_busLines;
         }
 
         public string GetBusLineCurrentInfo(string busLineId)
         {
             // "15路(锦江年华始发站=>汽车东站始发站)"
             var x = NingboBusHelper.Instance.GetBusLocations(Convert.ToInt32(busLineId));
-            var s = NingboBusHelper.Instance.ConvertBusLocationsToString(x);
+            var s = NingboBusHelper.ConvertBusLocationsToString(x);
             return s;
         }
     }

@@ -15,11 +15,11 @@ namespace NbBusService
         }
         Feng.Net.WebProxy webProxy = new Feng.Net.WebProxy();
 
-        private string DecodeText(string s)
+        private static string DecodeText(string s)
         {
             return s.Replace("\t", "").Replace("\r", "").Replace("\n", "").Replace("&rarr;", "=>").Trim(); 
         }
-
+        #region "Data Generator"
         private void InsertBusLine(string name, string link)
         {
             string sCmd = "INSERT BusLines (Name, Link) VALUES (@Name, @Link)";
@@ -179,8 +179,9 @@ FOREIGN KEY ([BusLine]) REFERENCES [BusLines]([Id])");
                 Console.WriteLine(ex.Message);
             }
         }
+        #endregion
 
-        public string ConvertBusLocationsToString(Tuple<List<string>, List<string>> tuple)
+        public static string ConvertBusLocationsToString(Tuple<List<string>, List<string>> tuple)
         {
             StringBuilder sb = new StringBuilder();
             Dictionary<string, string> removeSame = new Dictionary<string, string>();
@@ -211,16 +212,30 @@ FOREIGN KEY ([BusLine]) REFERENCES [BusLines]([Id])");
             }
             return sb.ToString();
         }
+
+        private static Dictionary<int, List<Tuple<string, string>>> m_cacheBusLineStations = new Dictionary<int, List<Tuple<string, string>>>();
         public Tuple<List<string>, List<string>> GetBusLocations(int busLineId)
         {
-            //var dt = Feng.Data.DbHelper.Instance.ExecuteDataTable("SELECT A.[Name], A.Link FROM BusStations A " + 
-            //    "INNER JOIN BusLines B ON A.BusLine = B.Id AND B.[Name] = '" + busLineName + "'");
-            var dt = Feng.Data.DbHelper.Instance.ExecuteDataTable("SELECT A.[Name], A.Link FROM BusStations A " +
-                "INNER JOIN BusLines B ON A.BusLine = B.Id AND B.[ID] = '" + busLineId + "'");
-            List<Tuple<string, string>> stations = new List<Tuple<string, string>>();
-            foreach (System.Data.DataRow row in dt.Rows)
+            List<Tuple<string, string>> stations;
+            lock (m_cacheBusLineStations)
             {
-                stations.Add(new Tuple<string, string>(row["Name"].ToString(), row["Link"].ToString()));
+                if (!m_cacheBusLineStations.ContainsKey(busLineId))
+                {
+                    //var dt = Feng.Data.DbHelper.Instance.ExecuteDataTable("SELECT A.[Name], A.Link FROM BusStations A " + 
+                    //    "INNER JOIN BusLines B ON A.BusLine = B.Id AND B.[Name] = '" + busLineName + "'");
+                    var dt = Feng.Data.DbHelper.Instance.ExecuteDataTable("SELECT A.[Name], A.Link FROM BusStations A " +
+                        "INNER JOIN BusLines B ON A.BusLine = B.Id AND B.[ID] = '" + busLineId + "'");
+                    stations = new List<Tuple<string, string>>();
+                    foreach (System.Data.DataRow row in dt.Rows)
+                    {
+                        stations.Add(new Tuple<string, string>(row["Name"].ToString(), row["Link"].ToString()));
+                    }
+                    m_cacheBusLineStations[busLineId] = stations;
+                }
+                else
+                {
+                    stations = m_cacheBusLineStations[busLineId];
+                }
             }
 
             Tuple<List<string>, List<string>> ret = new Tuple<List<string>,List<string>>(new List<string>(), new List<string>());
