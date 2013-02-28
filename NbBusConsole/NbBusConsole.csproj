@@ -7,8 +7,8 @@
     <ProjectGuid>{C56EF8A0-03EC-43EE-828F-D431015BE333}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NbBusServer</RootNamespace>
-    <AssemblyName>NbBusServer</AssemblyName>
+    <RootNamespace>NbBusConsole</RootNamespace>
+    <AssemblyName>NbBusConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
