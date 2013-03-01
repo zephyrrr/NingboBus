@@ -272,7 +272,7 @@ FOREIGN KEY ([BusLine]) REFERENCES [BusLines]([Id])");
                     stations = new List<Tuple<string, string>>();
                     foreach (System.Data.DataRow row in dt.Rows)
                     {
-                        stations.Add(new Tuple<string, string>(row["Name"].ToString(), row["Link"].ToString()));
+                        stations.Add(new Tuple<string, string>(row["Name"].ToString().Replace("(", "").Replace(")",""), row["Link"].ToString()));
                     }
                     m_cacheBusLineStations[busLineId] = stations;
                 }
