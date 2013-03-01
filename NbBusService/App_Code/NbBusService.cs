@@ -47,7 +47,7 @@ namespace NbBusService
             if (!s_dictBusLines.ContainsKey(busLineId))
                 return null;
             var x = NingboBusHelper.Instance.GetBusLocations(busLineId);
-            var s = NingboBusHelper.ConvertBusLocationsToString(x);
+            var s = NingboBusHelper.ConvertBusLocationsToString(busLineId, x);
             return new BusLineRunInfo { Name = s_dictBusLines[busLineId], RunInfo = s };
         }
     }

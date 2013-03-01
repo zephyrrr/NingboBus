@@ -181,39 +181,83 @@ FOREIGN KEY ([BusLine]) REFERENCES [BusLines]([Id])");
         }
         #endregion
 
-        public static string ConvertBusLocationsToString(Tuple<List<string>, List<string>> tuple)
+        public static string ConvertBusLocationsToString(int busLineId, Tuple<List<string>, List<string>> tuple)
         {
             StringBuilder sb = new StringBuilder();
-            Dictionary<string, string> removeSame = new Dictionary<string, string>();
-            if (tuple.Item1.Count > 0)
+            var stations = m_cacheBusLineStations[busLineId];
+
+            StringBuilder sb2 = new StringBuilder();
+            foreach (var kvp in stations)
             {
-                sb.Append("正开往");
-                foreach (var i in tuple.Item1)
+                if (tuple.Item1.Contains(kvp.Item1))
                 {
-                    if (removeSame.ContainsKey(i))
-                        continue;
-                    removeSame[i] = i;
-                    sb.Append(i);
-                    sb.Append(",");
+                    sb2.Append("＞");
+                }
+                else if (tuple.Item2.Contains(kvp.Item1))
+                {
+                    sb2.Append("＝");
+                }
+                else
+                {
+                    sb2.Append("　");
                 }
             }
-            if (tuple.Item2.Count > 0)
+            sb2.Append("\n");
+            sb.Append(sb2.ToString());
+
+            int idx = 0;
+            while (true)
             {
-                removeSame.Clear();
-                sb.Append("当前停靠");
-                foreach (var i in tuple.Item2)
+                sb2.Clear();
+                bool hasData = false;
+                foreach (var kvp in stations)
                 {
-                    if (removeSame.ContainsKey(i))
-                        continue;
-                    removeSame[i] = i;
-                    sb.Append(i);
-                    sb.Append(",");
+                    if (idx < kvp.Item1.Length)
+                    {
+                        sb2.Append(kvp.Item1[idx]);
+                        hasData = true;
+                    }
+                    else
+                    {
+                        sb2.Append("　");
+                    }
                 }
+                sb2.Append("\n");
+                idx++;
+                if (!hasData)
+                    break;
+                sb.Append(sb2.ToString());
             }
+            //Dictionary<string, string> removeSame = new Dictionary<string, string>();
+            //if (tuple.Item1.Count > 0)
+            //{
+            //    sb.Append("正开往");
+            //    foreach (var i in tuple.Item1)
+            //    {
+            //        if (removeSame.ContainsKey(i))
+            //            continue;
+            //        removeSame[i] = i;
+            //        sb.Append(i);
+            //        sb.Append(",");
+            //    }
+            //}
+            //if (tuple.Item2.Count > 0)
+            //{
+            //    removeSame.Clear();
+            //    sb.Append("当前停靠");
+            //    foreach (var i in tuple.Item2)
+            //    {
+            //        if (removeSame.ContainsKey(i))
+            //            continue;
+            //        removeSame[i] = i;
+            //        sb.Append(i);
+            //        sb.Append(",");
+            //    }
+            //}
             return sb.ToString();
         }
 
-        private static Dictionary<int, List<Tuple<string, string>>> m_cacheBusLineStations = new Dictionary<int, List<Tuple<string, string>>>();
+        private static System.Collections.Concurrent.ConcurrentDictionary<int, List<Tuple<string, string>>> m_cacheBusLineStations = new System.Collections.Concurrent.ConcurrentDictionary<int, List<Tuple<string, string>>>();
         public Tuple<List<string>, List<string>> GetBusLocations(int busLineId)
         {
             List<Tuple<string, string>> stations;
@@ -250,14 +294,14 @@ FOREIGN KEY ([BusLine]) REFERENCES [BusLines]([Id])");
                     int idx = i - 8 + j;
                     if (i == stations.Count - 1)
                         idx--;
-                    ret.Item1.Add(string.Format("{0}({1})", stations[idx].Item1, idx));    // 不以初始站开始的话，第一站为。。。 - (i == 8 ? 0 : 1)
+                    ret.Item1.Add(string.Format("{0}", stations[idx].Item1, idx));    // 不以初始站开始的话，第一站为。。。 - (i == 8 ? 0 : 1)
                 }
                 foreach (var j in x.Item2)
                 {
                     int idx = i - 8 + j;
                     if (i == stations.Count - 1)
                         idx--;
-                    ret.Item2.Add(string.Format("{0}({1})", stations[i - 8 + j].Item1, i - 8 + j)); 
+                    ret.Item2.Add(string.Format("{0}", stations[i - 8 + j].Item1, i - 8 + j)); 
                 }
                 if (i == stations.Count - 1)
                     break;
